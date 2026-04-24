@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sfmoveouthaul-clean.github.io/SprintConvert/sitemap.xml

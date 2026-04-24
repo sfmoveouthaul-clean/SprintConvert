@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>40 Yard Dash Calculator | Estimate Speed, Splits &amp; Performance Tier</title>
+  <meta name="description" content="Estimate 40-yard dash splits, speed metrics, and a broad football-style performance tier with transparent limits and benchmark notes.">
+  <meta name="theme-color" content="#17314f">
+  <link rel="canonical" href="https://sfmoveouthaul-clean.github.io/SprintConvert/40-yard-dash-calculator.html">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"40 Yard Dash Calculator","applicationCategory":"SportsApplication","operatingSystem":"Any","url":"https://sfmoveouthaul-clean.github.io/SprintConvert/40-yard-dash-calculator.html","description":"Estimate 40-yard dash speed, splits, and broad benchmark tier context."}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sfmoveouthaul-clean.github.io/SprintConvert/"},{"@type":"ListItem","position":2,"name":"40 Yard Dash Calculator","item":"https://sfmoveouthaul-clean.github.io/SprintConvert/40-yard-dash-calculator.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What makes a 40-yard dash estimate less reliable?","acceptedAnswer":{"@type":"Answer","text":"Rolling or flying starts, hand timing, missing split data, and trying to compare a short sprint directly to a longer one all reduce reliability."}},{"@type":"Question","name":"Does a 40-yard time predict football success by itself?","acceptedAnswer":{"@type":"Answer","text":"No. It is one testing input only and should not be treated as a complete evaluation of football performance or recruiting potential."}}]}</script>
+</head>
+<body data-primary-distance="40yd">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header">
+    <div class="container header-shell">
+      <a class="brand" href="index.html"><span class="brand-mark">SP</span><span class="brand-copy"><strong>Sprint Performance Calculator</strong><span>Transparent sprint estimates and benchmark notes</span></span></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle><span></span><span class="sr-only">Toggle navigation</span></button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
+        <a href="index.html">Home</a>
+        <a href="40-yard-dash-calculator.html" aria-current="page">40 Yard</a>
+        <a href="baseball-60-yard-dash-calculator.html">Baseball 60</a>
+        <a href="soccer-30m-sprint-calculator.html">Soccer 30m</a>
+        <a href="track-100m-calculator.html">Track 100m</a>
+        <a href="methodology.html">Methodology</a>
+        <a class="nav-cta" href="#calculator">Use Calculator</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main-content">
+    <section class="hero">
+      <div class="container hero-shell">
+        <div class="hero-copy">
+          <p class="eyebrow">Football-style sprint estimate</p>
+          <h1>40 Yard Dash Calculator</h1>
+          <p class="hero-kicker">Use this page to estimate a 40-yard dash, compare splits, and see a broad benchmark tier when the profile matches the limited v1 dataset.</p>
+          <div class="chip-row"><span class="chip">40yd-focused report</span><span class="chip">Split-aware</span><span class="chip">No official claims</span></div>
+        </div>
+        <aside class="page-hero-card">
+          <h2>Best use case</h2>
+          <p>This tool works best when you have a reliable 40-yard mark or nearby short sprint plus splits. It is not a recruiting verdict and should not be treated as one.</p>
+        </aside>
+      </div>
+    </section>
+    <section class="calculator-shell" id="calculator">
+      <div class="container calculator-layout">
+        <section class="calculator-card">
+          <div class="section-header">
+            <p class="eyebrow">Calculator</p>
+            <h2>Estimate a football-style 40 yard result</h2>
+            <p>Short sprints are acceleration-heavy, so the report leans hard on the opening segments instead of using straight-line distance math.</p>
+          </div>
+          <div data-calculator-template data-default-distance="40yd" data-default-timing="laser" data-default-start="three-point" data-default-sport="football" data-default-sex="male" data-default-age="17-18" data-default-position="skill"></div>
+        </section>
+        <aside class="content-card">
+          <h2>How to read the 40-yard report</h2>
+          <ul class="content-list">
+            <li>Use the estimated 10yd and 20yd outputs to think about the start.</li>
+            <li>Use the max velocity score to think about how well speed continues after the first phase.</li>
+            <li>Use the benchmark card only as a broad range, not an exact percentile.</li>
+          </ul>
+          <p><a class="source-link" href="30-yard-to-40-yard-converter.html">Need a shorter-input version? Try the 30-to-40 converter.</a></p>
+        </aside>
+      </div>
+    </section>
+    <section class="section" data-results-section hidden>
+      <div class="container result-section">
+        <div class="section-header"><p class="eyebrow">Results</p><h2>40-yard estimate report</h2><div data-result-summary class="result-summary" aria-live="polite"></div></div>
+        <div class="result-grid" data-results-grid></div>
+        <div class="result-grid" data-metrics-grid></div>
+      </div>
+    </section>
+    <section class="section section-alt"><div class="container"><div class="section-header"><p class="eyebrow">Benchmark</p><h2>Broad performance tier</h2><p>Lower times are better. These ranges are general and source-limited.</p></div><div data-benchmark-panel class="benchmark-panel" hidden></div></div></section>
+    <section class="section">
+      <div class="container card-grid">
+        <article class="content-card"><h2>Why 40s can mislead</h2><p>A 40-yard dash still depends on start quality, footwear, surface, and timing method. Two athletes can reach the same final time with different acceleration profiles.</p></article>
+        <article class="content-card"><h2>When split data helps most</h2><p>If you have a 10-yard or 20-yard split, the calculator can separate first-step quality from later speed more cleanly.</p></article>
+        <article class="content-card"><h2>Related pages</h2><p><a class="source-link" href="sprint-speed-calculator.html">Sprint Speed Calculator</a><br><a class="source-link" href="100m-to-40-yard-converter.html">100m to 40 Yard Converter</a></p></article>
+      </div>
+    </section>
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header"><p class="eyebrow">FAQ</p><h2>40-yard questions</h2></div>
+        <details class="faq-item"><summary>What makes a 40-yard dash estimate less reliable?</summary><div class="faq-answer"><p>Hand timing, rolling or flying starts, missing splits, and trying to compare very different testing setups all reduce reliability.</p></div></details>
+        <details class="faq-item"><summary>Does a 40-yard time predict football success by itself?</summary><div class="faq-answer"><p>No. It is just one testing input and should not be used alone to judge football performance, recruiting potential, or roster decisions.</p></div></details>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="container footer-grid"><div><p><strong>Sprint Performance Calculator</strong></p><p class="footer-note">Independent site. Not affiliated with any league, team, school, recruiting service, or timing company.</p></div><div class="footer-links"><a href="methodology.html">Methodology</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="contact.html">Contact</a></div></div></footer>
+  <script src="data/benchmarks.js"></script><script src="js/validation.js"></script><script src="js/benchmarks.js"></script><script src="js/share.js"></script><script src="js/calculator.js"></script>
+</body>
+</html>

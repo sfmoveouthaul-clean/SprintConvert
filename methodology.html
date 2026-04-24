@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Methodology | Sprint Performance Calculator</title>
+  <meta name="description" content="Read the transparent methodology behind the Sprint Performance Calculator, including timing assumptions, benchmark limits, and why sprint conversions are not exact.">
+  <meta name="theme-color" content="#17314f">
+  <link rel="canonical" href="https://sfmoveouthaul-clean.github.io/SprintConvert/methodology.html">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sfmoveouthaul-clean.github.io/SprintConvert/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Methodology",
+          "item": "https://sfmoveouthaul-clean.github.io/SprintConvert/methodology.html"
+        }
+      ]
+    }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header">
+    <div class="container header-shell">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">SP</span>
+        <span class="brand-copy">
+          <strong>Sprint Performance Calculator</strong>
+          <span>Transparent sprint estimates and benchmark notes</span>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+        <span></span>
+        <span class="sr-only">Toggle navigation</span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary" data-nav>
+        <a href="index.html">Home</a>
+        <a href="40-yard-dash-calculator.html">40 Yard</a>
+        <a href="baseball-60-yard-dash-calculator.html">Baseball 60</a>
+        <a href="soccer-30m-sprint-calculator.html">Soccer 30m</a>
+        <a href="track-100m-calculator.html">Track 100m</a>
+        <a href="methodology.html" aria-current="page">Methodology</a>
+        <a class="nav-cta" href="index.html#calculator">Use Calculator</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main-content">
+    <section class="hero">
+      <div class="container hero-shell">
+        <div class="hero-copy">
+          <p class="eyebrow">Methodology</p>
+          <h1>Transparency over fake precision</h1>
+          <p class="hero-kicker">This site uses a shaped sprint-estimation model with clear limits. It is designed to be helpful and honest, not official.</p>
+        </div>
+        <aside class="page-hero-card">
+          <h2>What the model is trying to do</h2>
+          <p>The goal is to create a reasonable training-reference estimate from limited sprint data while still showing where the estimate becomes less trustworthy.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container card-grid">
+        <article class="content-card">
+          <h2>Sprinting is not linear</h2>
+          <p>A 10-yard split is heavily about acceleration and early force application. A 100m race includes acceleration, upright max velocity, and speed maintenance. That is why the site uses shaped reference curves instead of pure distance-to-time multiplication.</p>
+        </article>
+        <article class="content-card">
+          <h2>Short sprints are acceleration-heavy</h2>
+          <p>When you enter a short sprint, the model gives more weight to acceleration. If you add a 10-yard split, 20-yard split, or a 30m block time, the acceleration score becomes more informed.</p>
+        </article>
+        <article class="content-card">
+          <h2>Longer sprints involve max velocity and speed endurance</h2>
+          <p>For 60m, 100m, and 200m outputs, the model gradually shifts more weight toward upright speed and the ability to hold speed over distance.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container card-grid">
+        <article class="content-card">
+          <h2>Timing method changes results</h2>
+          <p>Hand timing, FAT, laser timing, and phone-video estimates do not create the same kind of number. The confidence rating drops when the timing setup is less reliable.</p>
+        </article>
+        <article class="content-card">
+          <h2>Start type changes results</h2>
+          <p>Standing, 3-point, and block starts are not equivalent to rolling or flying starts. A rolling or flying input can still be useful, but standing-start comparisons become broader and less certain.</p>
+        </article>
+        <article class="content-card">
+          <h2>Hand time is not the same as FAT</h2>
+          <p>The optional hand-time adjustment uses a +0.24 second track-style estimate. That is included as an educational reference only, and it should not be treated as an official conversion for every testing setup.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <p class="eyebrow">Benchmarks</p>
+          <h2>Broad ranges only when the source is worth showing</h2>
+        </div>
+        <div class="table-like">
+          <div class="table-like-row">
+            <strong>No exact percentiles</strong>
+            <span class="muted">Benchmarks are broad general ranges, not exact percentiles or guarantees about level, recruiting, or future performance.</span>
+          </div>
+          <div class="table-like-row">
+            <strong>No unsupported tables</strong>
+            <span class="muted">If we do not have a trustworthy source for the exact sport/profile/distance combination, the site shows no benchmark instead of fabricating one.</span>
+          </div>
+          <div class="table-like-row">
+            <strong>Source notes stay visible</strong>
+            <span class="muted">Every benchmark used in v1 includes a source name, source link, notes, and a confidence label such as verified or general.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <p class="eyebrow">Confidence rating logic</p>
+          <h2>How the site explains uncertainty</h2>
+        </div>
+        <div class="card-grid">
+          <article class="content-card">
+            <h3>Low confidence</h3>
+            <p>Usually one input only, hand or phone timing, no splits, no top speed, or a rolling/flying start being compared to a standing-start context.</p>
+          </article>
+          <article class="content-card">
+            <h3>Medium confidence</h3>
+            <p>Usually one decent FAT or laser time with a reasonable start type and enough information to make a useful broad estimate.</p>
+          </article>
+          <article class="content-card">
+            <h3>High confidence</h3>
+            <p>Usually FAT or laser timing with split data, top-speed context, and a clearly matched start type.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <p><strong>Sprint Performance Calculator</strong></p>
+        <p class="footer-note">Independent site. Not affiliated with any league, team, school, recruiting service, or timing company.</p>
+      </div>
+      <div class="footer-links">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="accessibility.html">Accessibility</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+  <script src="data/benchmarks.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/benchmarks.js"></script>
+  <script src="js/share.js"></script>
+  <script src="js/calculator.js"></script>
+</body>
+</html>

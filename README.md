@@ -25,13 +25,12 @@ This project is not:
 
 ## Publish on GitHub Pages
 
-1. Create a new GitHub repository for this project.
-2. Push the contents of the `sprint-performance-calculator` folder to that repo.
-3. In GitHub, open `Settings > Pages`.
-4. Set the source to the main branch and the root folder.
-5. Update all placeholder URLs before publishing:
-   - replace `YOUR_GITHUB_USERNAME` in `sitemap.xml`, `robots.txt`, and page canonical URLs
-   - replace `YOUR_EMAIL_HERE` in `contact.html`
+1. Use the repository `sfmoveouthaul-clean/SprintConvert`.
+2. In GitHub, open `Settings > Pages`.
+3. Set the source to the `main` branch and the root folder.
+4. After Pages deploys, the expected site URL is:
+   - `https://sfmoveouthaul-clean.github.io/SprintConvert/`
+5. Replace `YOUR_EMAIL_HERE` in `contact.html` when you are ready to publish a public contact email.
 
 ## Project structure
 

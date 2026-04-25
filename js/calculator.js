@@ -325,6 +325,10 @@
     return clamp(20 + ((mps - 5.5) / 5.2) * 75, 20, 97);
   }
 
+  function deriveImpliedTopSpeedMps(values, scale) {
+    return REFERENCE_CURVES[values.startType].topSpeedMps / scale;
+  }
+
   function deriveTopSpeedMps(values, scale) {
     if (values.topSpeedValue !== null) {
       return values.topSpeedUnit === "mph" ? mphToMps(values.topSpeedValue) : values.topSpeedValue;
@@ -340,8 +344,7 @@
 
     const knownMeters = DISTANCES[values.knownDistance].meters;
     if (knownMeters >= 27.432) {
-      const referenceTopSpeed = REFERENCE_CURVES[values.startType].topSpeedMps;
-      return referenceTopSpeed / scale;
+      return deriveImpliedTopSpeedMps(values, scale);
     }
 
     return null;
@@ -349,6 +352,7 @@
 
   function derivePhaseScores(values, scale, adjustedKnownTime) {
     const baseScore = scoreFromScale(scale);
+    const knownMeters = DISTANCES[values.knownDistance].meters;
     const startBias = {
       standing: 53,
       "three-point": 59,
@@ -356,8 +360,9 @@
       rolling: 46,
       flying: 42
     };
+    const startInfluence = knownMeters <= 30 ? 1 : knownMeters <= 60 ? 0.7 : knownMeters <= 100 ? 0.35 : 0.2;
 
-    let acceleration = clamp((baseScore + startBias[values.startType]) / 2, 20, 95);
+    let acceleration = clamp(baseScore + (startBias[values.startType] - 50) * startInfluence, 20, 95);
     let maxVelocity = clamp(baseScore, 20, 95);
     let endurance = clamp(baseScore, 20, 95);
 
@@ -377,8 +382,14 @@
     }
 
     const topSpeedMps = deriveTopSpeedMps(values, scale);
+    const impliedTopSpeedMps = deriveImpliedTopSpeedMps(values, scale);
     if (topSpeedMps !== null) {
-      maxVelocity = clamp((maxVelocity + velocityScoreFromTopSpeed(topSpeedMps)) / 2, 20, 97);
+      const topSpeedScore = velocityScoreFromTopSpeed(topSpeedMps);
+      const speedEvidenceWeight = values.topSpeedValue !== null || values.flying10 !== null || values.flying20 !== null ? 0.7 : 0.5;
+      maxVelocity = clamp(maxVelocity * (1 - speedEvidenceWeight) + topSpeedScore * speedEvidenceWeight, 20, 97);
+      if (values.topSpeedValue !== null || values.flying10 !== null || values.flying20 !== null) {
+        endurance = clamp(endurance * 0.85 + topSpeedScore * 0.15, 20, 95);
+      }
     }
 
     if (values.flying10 !== null) {
@@ -399,23 +410,53 @@
       endurance += 6;
     }
 
+    if (knownMeters >= 60 && values.split10 === null && values.split20 === null && values.block30 === null) {
+      acceleration -= 4;
+    }
+
     return {
       acceleration: clamp(Math.round(acceleration), 20, 95),
       maxVelocity: clamp(Math.round(maxVelocity), 20, 97),
       endurance: clamp(Math.round(endurance), 20, 95),
-      topSpeedMps
+      topSpeedMps,
+      impliedTopSpeedMps
     };
   }
 
   function buildEstimatedTimes(values, scale, phaseScores) {
     const estimates = {};
+    const knownMeters = DISTANCES[values.knownDistance].meters;
+    const knownWeights = DISTANCE_PHASE_WEIGHTS[values.knownDistance];
+    const speedEvidenceProvided = values.topSpeedValue !== null || values.flying10 !== null || values.flying20 !== null;
+    const hasAccelerationEvidence = values.split10 !== null || values.split20 !== null || values.block30 !== null;
+
     Object.keys(DISTANCES).forEach((distanceKey) => {
       const referenceTime = REFERENCE_CURVES[values.startType][distanceKey];
+      const targetMeters = DISTANCES[distanceKey].meters;
       const weights = DISTANCE_PHASE_WEIGHTS[distanceKey];
-      const accelerationFactor = 1 + ((50 - phaseScores.acceleration) / 50) * 0.08 * weights.accel;
-      const velocityFactor = 1 + ((50 - phaseScores.maxVelocity) / 50) * 0.08 * weights.velocity;
-      const enduranceFactor = 1 + ((50 - phaseScores.endurance) / 50) * 0.08 * weights.endurance;
-      estimates[distanceKey] = roundTime(referenceTime * scale * accelerationFactor * velocityFactor * enduranceFactor);
+      const accelerationFactor = 1 + ((50 - phaseScores.acceleration) / 50) * 0.12 * weights.accel;
+      const velocityFactor = 1 + ((50 - phaseScores.maxVelocity) / 50) * 0.12 * weights.velocity;
+      const enduranceFactor = 1 + ((50 - phaseScores.endurance) / 50) * 0.14 * weights.endurance;
+      let topSpeedConstraint = 1;
+      let shortProjectionPenalty = 1;
+
+      if (phaseScores.topSpeedMps !== null && phaseScores.impliedTopSpeedMps !== null) {
+        const consistencyScale = clamp(phaseScores.impliedTopSpeedMps / phaseScores.topSpeedMps, 0.9, 1.18);
+        const targetVelocityLoad = weights.velocity + weights.endurance;
+        const knownVelocityLoad = knownWeights.velocity + knownWeights.endurance;
+        const loadGap = clamp(targetVelocityLoad - knownVelocityLoad, -0.35, 0.5);
+        const baseInfluence = speedEvidenceProvided ? 0.55 : 0.35;
+        const influence = clamp(baseInfluence + loadGap, 0.2, 0.9);
+        topSpeedConstraint = 1 + (consistencyScale - 1) * influence;
+      }
+
+      if (targetMeters < knownMeters && !hasAccelerationEvidence) {
+        const gapRatio = clamp((knownMeters - targetMeters) / knownMeters, 0, 1);
+        const evidenceRelief = speedEvidenceProvided ? 0.01 : 0;
+        shortProjectionPenalty = 1 + gapRatio * (0.09 - evidenceRelief);
+      }
+
+      estimates[distanceKey] = roundTime(referenceTime * scale * accelerationFactor * velocityFactor * enduranceFactor * topSpeedConstraint * shortProjectionPenalty);
     });
     return estimates;
   }
@@ -468,8 +509,11 @@
     const handNote = values.applyHandAdjustment && values.timingMethod === "hand"
       ? "A +0.24 second track-style hand-time adjustment was applied as an educational estimate, not an official conversion."
       : "No hand-time adjustment was applied.";
+    const topSpeedNote = values.topSpeedValue !== null || values.flying10 !== null || values.flying20 !== null
+      ? "Your speed evidence was also used to constrain upright-velocity projections so the conversions do not assume more top-end speed than the input supports."
+      : "Without top-speed or flying-sprint evidence, the model has to make broader assumptions about upright velocity.";
 
-    return `You entered ${roundTime(values.timeSeconds)} seconds for ${DISTANCES[primaryDistance].longLabel}. The tool uses a non-linear sprint model so short distances stay more acceleration-heavy and longer distances lean more on max velocity and speed endurance. ${confidenceLine} ${handNote}`;
+    return `You entered ${roundTime(values.timeSeconds)} seconds for ${DISTANCES[primaryDistance].longLabel}. The tool uses a non-linear sprint model so short distances stay more acceleration-heavy and longer distances lean more on max velocity and speed endurance. ${confidenceLine} ${topSpeedNote} ${handNote}`;
   }
 
   function calculate(values) {
@@ -581,7 +625,7 @@
         <p>These are general performance ranges, not exact percentiles.</p>
         <p>Performance varies based on timing method, surface, footwear, wind, start type, and testing conditions.</p>
         <p class="small-note">${match.notes}</p>
-        <p class="source-note"><strong>Source:</strong> ${match.sourceName} | <a class="source-link" href="${match.sourceUrl}" target="_blank" rel="noopener noreferrer">View source</a></p>
+        <p class="source-note"><strong>Source:</strong> ${match.sourceName} · <a class="source-link" href="${match.sourceUrl}" target="_blank" rel="noopener noreferrer">View source</a></p>
       </div>
     `;
   }
